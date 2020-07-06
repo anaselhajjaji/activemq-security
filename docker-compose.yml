@@ -1,0 +1,9 @@
+version: '3.7'
+
+services:
+  
+  activemq:
+    image: "rmohr/activemq:5.15.9"
+    ports:
+      - "61616:61616" # JMX Broker
+      - "8161:8161" # Web Console: admin/admin
