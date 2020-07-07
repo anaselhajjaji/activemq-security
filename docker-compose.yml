@@ -7,3 +7,13 @@ services:
     ports:
       - "61616:61616" # JMS Broker
       - "8161:8161" # Web Console: admin/admin
+
+  consumer: 
+    build: ./activemq-consumer
+    depends_on: 
+      - activemq
+
+  producer: 
+    build: ./activemq-producer
+    depends_on: 
+      - activemq

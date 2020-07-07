@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "activemq-producer": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}
