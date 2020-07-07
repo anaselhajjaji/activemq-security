@@ -7,7 +7,7 @@ namespace activemq_producer
 {
     class Program
     {
-        private const string UriString = "activemq:tcp://activemq:61616";
+        private const string UriString = "activemq:tcp://activemq:61616?nms.username=producer&nms.password=producer";
 
         static async Task Main(string[] args)
         {

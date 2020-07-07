@@ -4,6 +4,8 @@ services:
   
   activemq:
     image: "rmohr/activemq:5.15.9"
+    volumes:
+      - "./activemq/activemq.xml:/opt/activemq/conf/activemq.xml"
     ports:
       - "61616:61616" # JMS Broker
       - "8161:8161" # Web Console: admin/admin
