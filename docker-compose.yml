@@ -6,8 +6,12 @@ services:
     image: "rmohr/activemq:5.15.9"
     volumes:
       - "./activemq/activemq.xml:/opt/activemq/conf/activemq.xml"
+      - "./certificates/activemq/:/opt/activemq/conf/certs/"
+    environment: 
+      - "ACTIVEMQ_SSL_OPTS=-Djavax.net.ssl.keyStore=/opt/activemq/conf/certs/activemq.ks -Djavax.net.ssl.keyStorePassword=activemq -Djavax.net.ssl.trustStore=/opt/activemq/conf/certs/activemq.ts"
     ports:
       - "61616:61616" # JMS Broker
+      - "61617:61617" # JMS Broker using SSL
       - "8161:8161" # Web Console: admin/admin
 
   consumer: 
