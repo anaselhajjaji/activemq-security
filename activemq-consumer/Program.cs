@@ -7,7 +7,7 @@ namespace activemq_consumer
 {
     class Program
     {
-        private const string UriString = "activemq:tcp://activemq:61616?nms.username=consumer&nms.password=consumer";
+        private const string UriString = "activemq:tcp://activemq:61616";
 
         static async Task Main(string[] args)
         {
@@ -26,7 +26,7 @@ namespace activemq_consumer
                         // NOTE: ensure the nmsprovider-activemq.config file exists in the executable folder.
                         IConnectionFactory factory = new NMSConnectionFactory(connecturi);
 
-                        using (IConnection connection = factory.CreateConnection())
+                        using (IConnection connection = factory.CreateConnection("consumer", "consumer"))
                         using (ISession session = connection.CreateSession())
                         {
                             IDestination destination = SessionUtil.GetDestination(session, "queue://FOO.BAR");
