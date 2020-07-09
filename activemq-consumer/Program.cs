@@ -1,4 +1,8 @@
 ﻿using Apache.NMS;
+using Apache.NMS.ActiveMQ;
+using Apache.NMS.ActiveMQ.Transport;
+using Apache.NMS.ActiveMQ.Transport.Tcp;
+using Apache.NMS.ActiveMQ.Util;
 using Apache.NMS.Util;
 using System;
 using System.Threading.Tasks;
@@ -7,7 +11,7 @@ namespace activemq_consumer
 {
     class Program
     {
-        private const string UriString = "activemq:tcp://activemq:61616";
+        private const string UriString = "ssl://activemq:61617";
 
         static async Task Main(string[] args)
         {
@@ -23,10 +27,15 @@ namespace activemq_consumer
                         Uri connecturi = new Uri(UriString);
                         Console.WriteLine("About to connect to " + connecturi);
 
-                        // NOTE: ensure the nmsprovider-activemq.config file exists in the executable folder.
-                        IConnectionFactory factory = new NMSConnectionFactory(connecturi);
-
-                        using (IConnection connection = factory.CreateConnection("consumer", "consumer"))
+                        SslTransportFactory ssl = new SslTransportFactory();
+                        ssl.ClientCertSubject = "client";
+                        ssl.ClientCertPassword = "client";
+                        ssl.ClientCertFilename = "client.p12";
+                        ssl.BrokerCertFilename = "activemq_cert";
+                        ssl.SslProtocol = "Tls12";  //protocol, check which is using in AMQ version
+                        ITransport transport = ssl.CreateTransport(connecturi);
+                        
+                        using (IConnection connection = new Connection(connecturi, transport, new IdGenerator()) { UserName = "consumer", Password = "consumer" })
                         using (ISession session = connection.CreateSession())
                         {
                             IDestination destination = SessionUtil.GetDestination(session, "queue://FOO.BAR");

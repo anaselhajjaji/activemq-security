@@ -10,16 +10,22 @@ services:
     environment: 
       - "ACTIVEMQ_SSL_OPTS=-Djavax.net.ssl.keyStore=/opt/activemq/conf/certs/activemq.ks -Djavax.net.ssl.keyStorePassword=activemq -Djavax.net.ssl.trustStore=/opt/activemq/conf/certs/activemq.ts"
     ports:
-      - "61616:61616" # JMS Broker
+      #- "61616:61616" # JMS Broker
       - "61617:61617" # JMS Broker using SSL
       - "8161:8161" # Web Console: admin/admin
 
   consumer: 
     build: ./activemq-consumer
+    volumes:
+      - "./certificates/activemq/activemq_cert:/app/activemq_cert"
+      - "./certificates/client/client.p12:/app/client.p12"
     depends_on: 
       - activemq
 
   producer: 
     build: ./activemq-producer
+    volumes:
+      - "./certificates/activemq/activemq_cert:/app/activemq_cert"
+      - "./certificates/client/client.p12:/app/client.p12"
     depends_on: 
       - activemq
