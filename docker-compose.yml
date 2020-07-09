@@ -6,6 +6,9 @@ services:
     image: "rmohr/activemq:5.15.9"
     volumes:
       - "./activemq/activemq.xml:/opt/activemq/conf/activemq.xml"
+      - "./activemq/login.config:/opt/activemq/conf/login.config"
+      - "./activemq/users.properties:/opt/activemq/conf/users.properties"
+      - "./activemq/groups.properties:/opt/activemq/conf/groups.properties"
       - "./certificates/activemq/:/opt/activemq/conf/certs/"
     environment: 
       - "ACTIVEMQ_SSL_OPTS=-Djavax.net.ssl.keyStore=/opt/activemq/conf/certs/activemq.ks -Djavax.net.ssl.keyStorePassword=activemq -Djavax.net.ssl.trustStore=/opt/activemq/conf/certs/activemq.ts"

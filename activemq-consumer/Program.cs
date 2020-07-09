@@ -35,7 +35,7 @@ namespace activemq_consumer
                         ssl.SslProtocol = "Tls12";  //protocol, check which is using in AMQ version
                         ITransport transport = ssl.CreateTransport(connecturi);
                         
-                        using (IConnection connection = new Connection(connecturi, transport, new IdGenerator()) { UserName = "consumer", Password = "consumer" })
+                        using (IConnection connection = new Connection(connecturi, transport, new IdGenerator()))
                         using (ISession session = connection.CreateSession())
                         {
                             IDestination destination = SessionUtil.GetDestination(session, "queue://FOO.BAR");
