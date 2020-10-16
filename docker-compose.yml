@@ -2,6 +2,14 @@ version: '3.7'
 
 services:
   
+  proxy:
+    image: "mefellows/muxy"
+    privileged: true
+    volumes:
+      - "./muxy/:/opt/muxy/conf/"
+    ports:
+      - "80:80"
+
   activemq:
     image: "rmohr/activemq:5.15.9"
     volumes:

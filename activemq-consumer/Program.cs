@@ -11,7 +11,7 @@ namespace activemq_consumer
 {
     class Program
     {
-        private const string UriString = "ssl://activemq:61617";
+        private const string UriString = "ssl://proxy:61618";
 
         static async Task Main(string[] args)
         {
