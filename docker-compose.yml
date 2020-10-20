@@ -3,7 +3,8 @@ version: '3.7'
 services:
   
   proxy:
-    image: "mefellows/muxy"
+    build:
+      context: ./muxy
     privileged: true
     volumes:
       - "./muxy/:/opt/muxy/conf/"
