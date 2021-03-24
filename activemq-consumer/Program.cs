@@ -11,7 +11,7 @@ namespace activemq_consumer
 {
     class Program
     {
-        private const string UriString = "ssl://proxy:61618";
+        private const string UriString = "ssl://proxy:61618?transport.sslProtocol=Tls12&transport.ClientCertPassword=client&transport.clientCertFilename=client.p12&transport.brokerCertFilename=activemq_cert";
 
         static async Task Main(string[] args)
         {
@@ -27,15 +27,9 @@ namespace activemq_consumer
                         Uri connecturi = new Uri(UriString);
                         Console.WriteLine("About to connect to " + connecturi);
 
-                        SslTransportFactory ssl = new SslTransportFactory();
-                        ssl.ClientCertSubject = "client";
-                        ssl.ClientCertPassword = "client";
-                        ssl.ClientCertFilename = "client.p12";
-                        ssl.BrokerCertFilename = "activemq_cert";
-                        ssl.SslProtocol = "Tls12";  //protocol, check which is using in AMQ version
-                        ITransport transport = ssl.CreateTransport(connecturi);
-                        
-                        using (IConnection connection = new Connection(connecturi, transport, new IdGenerator()))
+                        IConnectionFactory factory = new Apache.NMS.ActiveMQ.ConnectionFactory(connecturi);
+
+                        using (IConnection connection = factory.CreateConnection())
                         using (ISession session = connection.CreateSession())
                         {
                             IDestination destination = SessionUtil.GetDestination(session, "queue://FOO.BAR");
